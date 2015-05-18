@@ -116,7 +116,10 @@ public class MainActivity extends Activity implements OnClickListener
                         boolean entryStatus = ticket.getEntryStatus();
                         if (!entryStatus) {
                             // Person is entering for the first time
-                            showResultOfScan(true, ticket.getName() + " is entering for the first time!");
+                            String message = "Successful!" + "\n" +
+                                             "Name: " + ticket.getName() + "\n" +
+                                             "Event Name: " + ticket.getEventName();
+                            showResultOfScan(true, message);
 
                             ticket.updateEntryStatus(true);
                         } else if (entryStatus) {

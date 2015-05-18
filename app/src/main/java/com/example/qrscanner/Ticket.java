@@ -16,6 +16,7 @@ public class Ticket extends ParseObject {
     public static final String GENDER = "gender";
     public static final String QRCODE = "qrcode";
     public static final String ENTERED = "entered";
+    public static final String EVENTNAME = "eventName";
 
     public Ticket() {
 
@@ -23,6 +24,10 @@ public class Ticket extends ParseObject {
 
     public String getName() {
         return getString(NAME);
+    }
+
+    public String getEventName() {
+        return getString(EVENTNAME);
     }
 
     public boolean getEntryStatus() {
