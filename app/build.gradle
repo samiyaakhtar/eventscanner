@@ -19,6 +19,8 @@ android {
 }
 
 dependencies {
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.1.0'
@@ -40,6 +42,4 @@ dependencies {
     compile files('libs/google-http-client-jackson2-1.17.0-rc.jar')
     compile files('libs/google-oauth-client-1.17.0-rc.jar')
     compile files('libs/mail.jar')
-    compile 'com.parse.bolts:bolts-android:1.+'
-    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
 }

@@ -106,17 +106,17 @@ public class MainActivity extends Activity implements OnClickListener
 			String scanContent = scanningResult.getContents();
 			String scanFormat = scanningResult.getFormatName();
 			
-			formatTxt.setText("FORMAT: " + scanFormat);
-			contentTxt.setText("CONTENT: " + scanContent);
-			
-			// If it doesn't exist in map, check spreadsheet
-			if(sheet.verifyScan(scanContent)) {
-				showResultOfScan( true  );
-			}
-			else {
-				boolean result = sheet.verifyScanFromSpreadsheet(scanContent);
-				showResultOfScan( result  );
-			}
+//			formatTxt.setText("FORMAT: " + scanFormat);
+//			contentTxt.setText("CONTENT: " + scanContent);
+//
+//			// If it doesn't exist in map, check spreadsheet
+//			if(sheet.verifyScan(scanContent)) {
+//				showResultOfScan( true  );
+//			}
+//			else {
+//				boolean result = sheet.verifyScanFromSpreadsheet(scanContent);
+//				showResultOfScan( result  );
+//			}
 			
 			
 			/* Json stuff - uncomment/comment the stuff below to use Json */
