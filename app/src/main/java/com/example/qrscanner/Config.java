@@ -8,5 +8,6 @@ public class Config {
 	public static String SPREADSHEET_PUBLIC_URL = "https://spreadsheets.google.com/feeds/list/1fXMtqjoZ20Lg9OpL3j3cA6rJBP-yMFEkLyLpst6Csn0/default/public/values";
 	public static String SPREADSHEET_CELLFEED_URL = "https://spreadsheets.google.com/feeds/cells/1ueaft1tUCYssK_ucANSQbhmF7At09lv1MqSapH6T_Gc/default/public/values";
 	public static int SPREADSHEET_ENTRYTIMESTAMP_COLUMN_NO = 9;
-
+    public static String PARSE_APP_ID = "PqeydcZKCSCFJ0xv7hH73Xhj8IADhcLDAG7xy86X";
+    public static String PARSE_CLIENT_ID = "fM997mcX0wnz4Y7p0kM2pzMFBjETI0DRG5mDiTBJ";
 }
