@@ -7,6 +7,9 @@ import org.json.JSONObject;
 import android.support.v7.app.ActionBarActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -105,6 +108,29 @@ public class MainActivity extends Activity implements OnClickListener
 			//we have a result
 			String scanContent = scanningResult.getContents();
 			String scanFormat = scanningResult.getFormatName();
+
+            Ticket.getTicketByQRContent(scanContent, new GetCallback<Ticket>() {
+                @Override
+                public void done(Ticket ticket, ParseException e) {
+                    if (ticket != null && e == null) {
+                        boolean entryStatus = ticket.getEntryStatus();
+                        if (!entryStatus) {
+                            // Person is entering for the first time
+                            showResultOfScan(true, ticket.getName() + " is entering for the first time!");
+
+                            ticket.updateEntryStatus(true);
+                        } else if (entryStatus) {
+                            // Person has already entered!
+                            showResultOfScan(false, ticket.getName() + " has already entered! Ask them why");
+                        }
+                    } else if (ticket == null && e == null) {
+                        showResultOfScan(false, "Could not find this ticket in the list of valid tickets");
+                    }
+                    else {
+                        showResultOfScan(false, e.getMessage());
+                    }
+                }
+            });
 			
 //			formatTxt.setText("FORMAT: " + scanFormat);
 //			contentTxt.setText("CONTENT: " + scanContent);
@@ -149,19 +175,8 @@ public class MainActivity extends Activity implements OnClickListener
 		}
 	}
 	
-	public void showResultOfScan(boolean result) {
-		String message = "";
-		if( result ) {
+	public void showResultOfScan(boolean result, String message) {
 
-			alertDialogBuilder.setTitle("Successful Scan!");
-			message = "You may enter.";
-		}
-		else {
-
-			alertDialogBuilder.setTitle("Scan Failed!");
-			message = "This qr content could not be found, or has been found and scanned already.";
-		}
-		 
 		// set dialog message
 		alertDialogBuilder
 			.setMessage(message)

@@ -1,7 +1,9 @@
 package com.example.qrscanner;
 
+import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 /**
  * Created by samiya on 18/05/15.
@@ -14,10 +16,29 @@ public class Ticket extends ParseObject {
     public static final String GENDER = "gender";
     public static final String QRCODE = "qrcode";
     public static final String ENTERED = "entered";
-    public static final String DATE = "date";
 
     public Ticket() {
 
+    }
+
+    public String getName() {
+        return getString(NAME);
+    }
+
+    public boolean getEntryStatus() {
+        return getBoolean(ENTERED);
+    }
+
+    public static void getTicketByQRContent(String qrContent, GetCallback<Ticket> callback) {
+        ParseQuery<Ticket> query = ParseQuery.getQuery(Ticket.CLASSNAME);
+        query.whereEqualTo(Ticket.QRCODE, qrContent);
+
+        query.getFirstInBackground(callback);
+    }
+
+    public void updateEntryStatus(boolean entered) {
+        put(ENTERED, entered);
+        saveInBackground();
     }
 
 }
