@@ -124,7 +124,7 @@ public class MainActivity extends Activity implements OnClickListener
                             ticket.updateEntryStatus(true);
                         } else if (entryStatus) {
                             // Person has already entered!
-                            showResultOfScan(false, ticket.getName() + " has already entered! Ask them why");
+                            showResultOfScan(false, ticket.getName() + " has already entered into " + ticket.getEventName() + "! Ask them why");
                         }
                     } else if (ticket == null && e == null) {
                         showResultOfScan(false, "Could not find this ticket in the list of valid tickets");
