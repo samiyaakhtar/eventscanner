@@ -35,7 +35,6 @@ public class MainActivity extends Activity implements OnClickListener
 {
 	private Button scanBtn;
 	private TextView formatTxt, contentTxt;
-	ReadSpreadsheet sheet;
     private AlertDialog.Builder alertDialogBuilder;
 	//String url1 ="https://spreadsheets.google.com/tq?tqx=out:tq?tqx=out:json&tq=select+B+where+(+G+%3D+";
 	
@@ -50,8 +49,7 @@ public class MainActivity extends Activity implements OnClickListener
 		formatTxt = (TextView)findViewById(R.id.scan_format);
 		contentTxt = (TextView)findViewById(R.id.scan_content);
 		
-		sheet = new ReadSpreadsheet(this);
-		
+
 		scanBtn.setOnClickListener(this);
 	}
 
@@ -134,36 +132,7 @@ public class MainActivity extends Activity implements OnClickListener
                     }
                 }
             });
-			
-//			formatTxt.setText("FORMAT: " + scanFormat);
-//			contentTxt.setText("CONTENT: " + scanContent);
-//
-//			// If it doesn't exist in map, check spreadsheet
-//			if(sheet.verifyScan(scanContent)) {
-//				showResultOfScan( true  );
-//			}
-//			else {
-//				boolean result = sheet.verifyScanFromSpreadsheet(scanContent);
-//				showResultOfScan( result  );
-//			}
-			
-			
-			/* Json stuff - uncomment/comment the stuff below to use Json */
-			/*
-			String finalurl = url1 + scanContent + url2;
-			Json getJsonFromUrl = new Json();
-			getJsonFromUrl.execute(finalurl);
-			
-			JSONObject jsonparse = getJsonFromUrl.get();
-			JSONArray rows = null;
-			try {
-				 rows = jsonparse.getJSONObject("table").getJSONArray("rows");
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			showResultOfScan( rows != null && rows.length() != 0);
-			*/
+
 			
 		}
 		else{
