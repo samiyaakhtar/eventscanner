@@ -1,5 +1,6 @@
 package com.example.qrscanner;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -34,11 +35,12 @@ public class Ticket extends ParseObject {
         return getBoolean(ENTERED);
     }
 
-    public static void getTicketByQRContent(String qrContent, GetCallback<Ticket> callback) {
+    public static void getTicketByQRContent(String qrContent, FindCallback<Ticket> callback) {
         ParseQuery<Ticket> query = ParseQuery.getQuery(Ticket.CLASSNAME);
         query.whereEqualTo(Ticket.QRCODE, qrContent);
+        query.findInBackground(callback);
 
-        query.getFirstInBackground(callback);
+//        query.getFirstInBackground(callback);
     }
 
     public void updateEntryStatus(boolean entered) {

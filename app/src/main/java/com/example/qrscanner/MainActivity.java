@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.support.v7.app.ActionBarActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 
@@ -30,6 +31,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends Activity implements OnClickListener
 {
@@ -107,37 +110,44 @@ public class MainActivity extends Activity implements OnClickListener
 			String scanContent = scanningResult.getContents();
 			String scanFormat = scanningResult.getFormatName();
 
-            Ticket.getTicketByQRContent(scanContent, new GetCallback<Ticket>() {
-                @Override
-                public void done(Ticket ticket, ParseException e) {
-                    if (ticket != null && e == null) {
-                        boolean entryStatus = ticket.getEntryStatus();
-                        if (!entryStatus) {
-                            // Person is entering for the first time
-                            String message = "Successful!" + "\n" +
-                                             "Name: " + ticket.getName() + "\n" +
-                                             "Event Name: " + ticket.getEventName();
-                            showResultOfScan(true, message);
+			Ticket.getTicketByQRContent(scanContent, new FindCallback<Ticket>() {
+				@Override
+				public void done(List<Ticket> list, ParseException e) {
+					if (list == null || list.size() == 0) {
+						String message = "Whoops, a ticket could not be found for this scan! ";
+						if (e != null) {
+							message += e.getMessage();
+						}
+						showResultOfScan(false, message);
+						return;
+					}
 
-                            ticket.updateEntryStatus(true);
-                        } else if (entryStatus) {
-                            // Person has already entered!
-                            showResultOfScan(false, ticket.getName() + " has already entered into " + ticket.getEventName() + "! Ask them why");
-                        }
-                    } else if (ticket == null && e == null) {
-                        showResultOfScan(false, "Could not find this ticket in the list of valid tickets");
-                    }
-                    else {
-                        showResultOfScan(false, e.getMessage());
-                    }
-                }
-            });
+					Ticket ticket = list.get(0);
+					if (list != null && e == null) {
+						boolean entryStatus = ticket.getEntryStatus();
+						if (!entryStatus) {
+							// Person is entering for the first time
+							String message = "Successful!" + "\n" +
+									"Name: " + ticket.getName() + "\n" +
+									"Event Name: " + ticket.getEventName();
+							showResultOfScan(true, message);
 
-			
+							ticket.updateEntryStatus(true);
+						} else if (entryStatus) {
+							// Person has already entered!
+							showResultOfScan(false, ticket.getName() + " has already entered into " + ticket.getEventName() + "! Ask them why");
+						}
+					} else if (ticket == null && e == null) {
+						showResultOfScan(false, "Could not find this ticket in the list of valid tickets");
+					} else {
+						showResultOfScan(false, e.getMessage());
+					}
+				}
+			});
 		}
 		else{
-		    Toast toast = Toast.makeText(getApplicationContext(), 
-		        "No scan data received!", Toast.LENGTH_SHORT);
+		    Toast toast = Toast.makeText(getApplicationContext(),
+					"No scan data received!", Toast.LENGTH_SHORT);
 		    toast.show();
 		}
 	}
